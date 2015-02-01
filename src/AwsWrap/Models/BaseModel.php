@@ -35,11 +35,21 @@ final class BaseModel extends AbstractModel
     protected $primaryKey = false;
 
     /**
+     * Return empty ID
+     *
+     * @return string
+     */
+    public function getID()
+    {
+        return null;
+    }
+
+    /**
      * @inheritdoc
      */
     public function toArgs()
     {
-        return '';
+        return $this->data;
     }
 
     /**
