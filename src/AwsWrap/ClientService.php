@@ -35,13 +35,13 @@ class ClientService extends Aws
      *
      * @var array
      */
-    static protected $settings = [];
+    protected static $settings = [];
 
     /**
      * AWS Instance
      * @var Aws
      */
-    static protected $instance;
+    protected static $instance;
 
     /**
      * Return the AWS client by type
@@ -49,7 +49,7 @@ class ClientService extends Aws
      * @param string $service
      * @return AbstractClient
      */
-    static public function getClient($service)
+    public static function getClient($service)
     {
         $aws = self::getInstance();
 
@@ -57,11 +57,11 @@ class ClientService extends Aws
     }
 
     /**
-     * Return the AWS service instance
+     * Return the AWS client instance
      *
      * @return Aws
      */
-    static public function getInstance()
+    public static function getInstance()
     {
         if (!self::$instance) {
             self::$instance = self::factory(realpath(__DIR__) . self::CONFIG_PATH);
@@ -75,8 +75,10 @@ class ClientService extends Aws
      *
      * @param array $settings
      */
-    static public function setParams(array $settings)
+    public static function setParams(array $settings)
     {
+        self::reset();
+
         self::$settings = $settings;
     }
 
@@ -86,7 +88,7 @@ class ClientService extends Aws
      * @return array
      * @throws Exception
      */
-    static public function getParams()
+    public static function getParams()
     {
         if (empty(self::$settings)) {
             throw new Exception('Missing AWS configuration settings');
@@ -100,7 +102,7 @@ class ClientService extends Aws
      *
      * @return void
      */
-    static public function reset()
+    public static function reset()
     {
         self::$instance = null;
         self::$settings = [];
