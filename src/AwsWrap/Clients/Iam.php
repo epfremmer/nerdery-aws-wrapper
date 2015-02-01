@@ -18,14 +18,14 @@ use Doctrine\Common\Collections\ArrayCollection;
  * @package       AwsWrap
  * @subpackage    Clients
  */
-class Iam extends ClientAbstract
+class Iam extends AbstractClient
 {
 
     // Base AWS Wrapper model class namesudo
     const MODEL_CLASS_NAMESPACE = 'AwsWrap\\Models\\Iam\\';
 
     /**
-     * Map of model class names to AWS OpsWorks Client methods
+     * Map of model class names to AWS IAM Client methods
      * @var array
      */
     protected $modelsMap = [

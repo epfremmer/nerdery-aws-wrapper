@@ -38,7 +38,7 @@ use Doctrine\Common\Collections\ArrayCollection;
  * @package       AwsWrap
  * @subpackage    Clients
  */
-class OpsWorks extends ClientAbstract
+class OpsWorks extends AbstractClient
 {
 
     // Base AWS Wrapper model class namesudo

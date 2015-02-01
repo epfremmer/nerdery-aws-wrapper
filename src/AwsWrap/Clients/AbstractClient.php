@@ -1,6 +1,6 @@
 <?php
 /**
- * File ClientAbstract.php
+ * File AbstractClient.php
  *
  * @author Edward Pfremmer <epfremme@nerdery.com>
  */
@@ -10,17 +10,17 @@ namespace AwsWrap\Clients;
 use Exception;
 use AwsWrap\Models\AbstractModel;
 use AwsWrap\Models\ModelCollection;
-use Aws\Common\Client\AbstractClient;
+use Aws\Common\Client\AbstractClient as AwsClient;
 use Guzzle\Service\Resource\Model;
 use Doctrine\Common\Collections\ArrayCollection;
 
 /**
- * Class ClientAbstract
+ * Class AbstractClient
  *
  * @package       AwsWrap
  * @subpackage    Clients
  */
-abstract class ClientAbstract
+abstract class AbstractClient
 {
 
     // Base data model class name
@@ -34,7 +34,7 @@ abstract class ClientAbstract
 
     /**
      * AWS Client
-     * @var AbstractClient
+     * @var AwsClient
      */
     protected $awsClient;
 
@@ -69,7 +69,7 @@ abstract class ClientAbstract
      * Return new instance of the AWS wrapper client
      *
      * @param array $config
-     * @return ClientAbstract
+     * @return AbstractClient
      */
     public static function factory(array $config = [])
     {
@@ -79,7 +79,7 @@ abstract class ClientAbstract
     /**
      * Return the AWS client
      *
-     * @return AbstractClient
+     * @return AwsClient
      * @throws Exception
      */
     public function getClient()
