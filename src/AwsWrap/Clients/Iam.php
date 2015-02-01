@@ -21,7 +21,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 class Iam extends AbstractClient
 {
 
-    // Base AWS Wrapper model class namesudo
+    // Base AWS Wrapper model class name
     const MODEL_CLASS_NAMESPACE = 'AwsWrap\\Models\\Iam\\';
 
     /**
