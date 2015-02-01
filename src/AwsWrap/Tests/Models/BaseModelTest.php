@@ -45,7 +45,10 @@ class BaseModelTest extends PHPUnit_Framework_TestCase
     /**
      * {@inheritdoc}
      */
-    public function setUp() {}
+    public function setUp()
+    {
+        $this->model = new BaseModel($this->stubData);
+    }
 
     /**
      * {@inheritdoc}
@@ -53,107 +56,64 @@ class BaseModelTest extends PHPUnit_Framework_TestCase
     public function tearDown() {}
 
     /**
-     * Test getting model data
+     * Test getting unavailable base model ID
      *
      * @return void
      */
-    public function testGetData()
+    public function testGetID()
     {
-        $model = new BaseModel($this->stubData);
-
-        $this->assertInternalType('array', $model->getData());
-        $this->assertEquals($this->stubData, $model->getData());
+        $this->assertNull($this->model->getID());
     }
 
     /**
-     * Test setting model data
+     * Test getting unavailable base model ID
      *
      * @return void
      */
-    public function testSetData()
+    public function testToArgs()
     {
-        $model = new BaseModel();
-
-        $model->setData($this->stubData);
-
-        $this->assertInternalType('array', $model->getData());
-        $this->assertEquals($this->stubData, $model->getData());
+        $this->assertInternalType('array', $this->model->toArgs());
+        $this->assertEquals($this->stubData, $this->model->toArgs());
     }
 
     /**
-     * Test new BaseModel object
+     * Test getting base model client false
      *
-     * @depends testSetData
-     * @depends testGetData
      * @return void
      */
-    public function testConstructor()
+    public function testGetClient()
     {
-        $modelFromArray = new BaseModel($this->stubData);
-        $modelFromJson  = new BaseModel(json_encode($this->stubData));
-
-        $this->assertInstanceOf(AbstractModel::class, $modelFromArray);
-        $this->assertInstanceOf(AbstractModel::class, $modelFromJson);
-        $this->assertEquals($this->stubData, $modelFromArray->getData());
-        $this->assertEquals($this->stubData, $modelFromJson->getData());
+        $this->assertFalse($this->model->getCLient());
     }
 
     /**
-     * Test setting new data merges with current model data
+     * Test isValid always true
      *
      * @return void
      */
-    public function testMergeData()
+    public function testisValid()
     {
-        $data = [
-            'key' => 'value',
-        ];
-
-        $model = new BaseModel($this->stubData);
-
-        $model->setData($data);
-
-        $this->assertNotEquals($this->stubData, $model->getData());
-        $this->assertEquals(array_merge($this->stubData, $data), $model->getData());
+        $this->assertTrue($this->model->isValid());
     }
 
     /**
-     * Test setting model data from json
+     * Test save does nothing
      *
-     * @depends testSetData
      * @return void
      */
-    public function testFromJson()
+    public function testSave()
     {
-        $model = new BaseModel();
-
-        $model->fromJson(json_encode($this->stubData));
-
-        $this->assertInternalType('array', $model->getData());
-        $this->assertEquals($this->stubData, $model->getData());
+        $this->assertEmpty($this->model->save());
     }
 
     /**
-     * Test setting model data from json
+     * Test refresh does nothing
      *
-     * @depends testSetData
      * @return void
      */
-    public function testToJson()
+    public function testRefresh()
     {
-        $model = new BaseModel($this->stubData);
-
-        $json = $model->toJson();
-
-        $this->assertInternalType('string', $json);
-        $this->assertJson($json);
-        $this->assertEquals($this->stubData, json_decode($json, true));
-
-        $json = json_encode($model);
-
-        $this->assertInternalType('string', $json);
-        $this->assertJson($json);
-        $this->assertEquals($this->stubData, json_decode($json, true));
+        $this->assertEmpty($this->model->refresh());
     }
 
 }

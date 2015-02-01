@@ -12,7 +12,7 @@ use AwsWrap\Models\AbstractModel;
 /**
  * Class InvalidModel
  *
- * Stub class used to simulate extension of abstract models with invalid class properties. This mock class is used
+ * Mock class used to simulate extension of abstract models with invalid class properties. This mock class is used
  * during unit testing to validate that the model construct method is throwing exceptions in these cases.
  *
  * @uses          AbstractModel

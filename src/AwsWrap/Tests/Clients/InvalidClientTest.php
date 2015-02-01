@@ -1,26 +1,24 @@
 <?php
 /**
- * File InvalidModelTest.php
+ * File InvalidClientTest.php
  *
  * @author Edward Pfremmer <epfremme@nerdery.com>
  */
 
-namespace AwsWrap\Tests\Models;
+namespace AwsWrap\Tests\Clients;
 
 use Exception;
-use AwsWrap\Models\AbstractModel;
-use AwsWrap\Models\BaseModel;
-use AwsWrap\Tests\Mocks\InvalidModel;
+use AwsWrap\Tests\Mocks\InvalidClient;
 use PHPUnit_Framework_TestCase;
 
 /**
- * Class InvalidModelTest
+ * Class InvalidClientTest
  *
  * @uses          PHPUnit_Framework_TestCase
  * @package       AwsWrap
  * @subpackage    Tests
  */
-class InvalidModelTest extends PHPUnit_Framework_TestCase
+class InvalidClientTest extends PHPUnit_Framework_TestCase
 {
 
     /**
@@ -43,30 +41,13 @@ class InvalidModelTest extends PHPUnit_Framework_TestCase
      *
      * @return void|bool
      */
-    public function testMissingClientTypeException()
+    public function testMissingClientClassException()
     {
         try {
-            new InvalidModel([], null, 'primaryKey');
+            new InvalidClient([]);
         } catch (Exception $e) {
             $this->anything($e);
             $this->assertInstanceOf(Exception::class, $e);
-            return true;
-        }
-
-        $this->fail('Model exception not caught!!!');
-    }
-
-    /**
-     * Test proper constructor exceptions thrown
-     *
-     * @return void|bool
-     */
-    public function testMissingPrimaryKeyException()
-    {
-        try {
-            new InvalidModel([], 'clientType', null);
-        } catch (Exception $e) {
-            $this->anything($e);
             return true;
         }
 
