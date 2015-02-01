@@ -8,6 +8,7 @@
 namespace AwsWrap\Models;
 
 use Exception;
+use JsonSerializable;
 use AwsWrap\ClientService;
 use Aws\Common\Client\AbstractClient;
 
@@ -18,7 +19,7 @@ use Aws\Common\Client\AbstractClient;
  * @package       AwsWrap
  * @subpackage    Models
  */
-abstract class AbstractModel implements ModelInterface
+abstract class AbstractModel implements ModelInterface, JsonSerializable
 {
 
     /**
@@ -108,7 +109,7 @@ abstract class AbstractModel implements ModelInterface
      * @return string
      */
     public function toJson() {
-        return json_encode($this->data);
+        return json_encode($this->jsonSerialize());
     }
 
     /**
@@ -118,7 +119,7 @@ abstract class AbstractModel implements ModelInterface
      * @return $this
      */
     public function fromJson($json = "") {
-        $data = json_encode($json);
+        $data = json_decode($json, true);
 
         return $this->setData($data);
     }
@@ -173,6 +174,16 @@ abstract class AbstractModel implements ModelInterface
      * @return self
      */
     abstract public function refresh();
+
+    /**
+     * Alias to toJson method
+     *
+     * @return string
+     */
+    public function jsonSerialize()
+    {
+        return $this->data;
+    }
 
     /**
      * Return model data
