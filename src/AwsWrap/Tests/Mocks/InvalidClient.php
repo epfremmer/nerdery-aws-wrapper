@@ -8,7 +8,6 @@
 namespace AwsWrap\Tests\Mocks;
 
 use AwsWrap\Clients\AbstractClient;
-use AwsWrap\Models\AbstractModel;
 
 /**
  * Class InvalidClient

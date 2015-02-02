@@ -13,8 +13,11 @@ use AwsWrap\Clients\AbstractClient;
 /**
  * Class GenericClient
  *
- * Mock class used to simulate extension of abstract client with invalid class properties. This mock class is used
- * during unit testing to validate that the client construct method is throwing exceptions in these cases.
+ * Mock class used to simulate extension of abstract client with with testing model mappings specified. Only for
+ * testing the hydration of various general AWS response model types & formats.
+ *
+ * This is for testing general client & response hydration functionality. Specific client methods unique to each
+ * client type should be tested separately.
  *
  * @uses          AbstractModel
  * @package       AwsWrap
@@ -24,14 +27,15 @@ class GenericClient extends AbstractClient
 {
 
     // Base AWS Wrapper model class name
-    const MODEL_CLASS_NAMESPACE = null;
+    const MODEL_CLASS_NAMESPACE = 'AwsWrap\\Tests\\Mocks\\';
 
     /**
      * Map of model class names to AWS OpsWorks Client methods
      * @var array
      */
     protected $modelsMap = [
-        'Foo' => ''
+        'Item'  => 'GenericModel',
+        'Items' => 'GenericModel',
     ];
 
     /**
@@ -47,7 +51,7 @@ class GenericClient extends AbstractClient
      */
     protected function getModelNamespace()
     {
-        return self::DEFAULT_MODEL_CLASS;
+        return self::MODEL_CLASS_NAMESPACE;
     }
 
 }
