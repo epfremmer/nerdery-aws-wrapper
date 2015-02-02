@@ -113,7 +113,7 @@ abstract class AbstractClient
      * @param array $data
      * @return bool
      */
-    public function isCollection(array $data)
+    protected function isCollection(array $data)
     {
         return array_keys($data) === range(0, count($data) - 1);
     }
