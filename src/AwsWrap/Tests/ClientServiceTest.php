@@ -54,7 +54,7 @@ class ClientServiceTest extends PHPUnit_Framework_TestCase
      */
     public function tearDown()
     {
-        ClientService::reset();
+        ClientService::reset(true);
     }
 
     /**
@@ -101,8 +101,8 @@ class ClientServiceTest extends PHPUnit_Framework_TestCase
     {
         ClientService::setParams($this->clientParams);
 
-        $awsClient = ClientService::getInstance();
-        $config    = $awsClient->getConfig();
+        $aws    = ClientService::getInstance();
+        $config = $aws->getConfig();
 
         $this->assertInternalType('array', $config);
         $this->assertArrayHasKey('default_settings', $config);
@@ -158,6 +158,52 @@ class ClientServiceTest extends PHPUnit_Framework_TestCase
     }
 
     /**
+     * Test setting custom AWS service configuration
+     *
+     * @reutrn void
+     */
+    public function testSetConfig()
+    {
+        ClientService::setParams($this->clientParams);
+        ClientService::setConfig([
+            'services' => [
+                'opsworks' => [
+                    'foo' => 'bar'
+                ]
+            ]
+        ]);
+
+        $aws    = ClientService::getInstance();
+        $config = $aws->getConfig();
+
+        $this->assertInternalType('array', $config);
+        $this->assertArrayHasKey('opsworks', $config);
+        $this->assertArrayHasKey('foo', $config['opsworks']);
+        $this->assertEquals('bar', $config['opsworks']['foo']);
+    }
+
+    /**
+     * Test getting custom AWS config from client service
+     *
+     * @return void
+     */
+    public function testGetConfig()
+    {
+        $config = [
+            'services' => [
+                'opsworks' => [
+                    'foo' => 'bar'
+                ]
+            ]
+        ];
+
+        ClientService::setParams($this->clientParams);
+        ClientService::setConfig($config);
+
+        $this->assertEquals($config, ClientService::getConfig());
+    }
+
+    /**
      * Test resetting client params
      *
      * @return void
@@ -170,7 +216,7 @@ class ClientServiceTest extends PHPUnit_Framework_TestCase
 
         ClientService::reset();
         ClientService::setParams([
-            'key' => '',
+            'key'    => '',
             'secret' => '',
         ]);
 

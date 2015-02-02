@@ -14,11 +14,11 @@ use Aws\Common\Client\AbstractClient;
 /**
  * Class ClientService
  *
- * @uses          Aws
+ * @uses
  * @package       AwsWrap
  * @subpackage    Models
  */
-class ClientService extends Aws
+class ClientService
 {
 
     // config file path
@@ -35,7 +35,15 @@ class ClientService extends Aws
      *
      * @var array
      */
-    protected static $settings = [];
+    protected static $params = [];
+
+    /**
+     * Custom AWS configuration
+     *
+     * @see http://docs.aws.amazon.com/aws-sdk-php/guide/latest/configuration.html
+     * @var array
+     */
+    protected static $config = [];
 
     /**
      * AWS Instance
@@ -64,7 +72,7 @@ class ClientService extends Aws
     public static function getInstance()
     {
         if (!self::$instance) {
-            self::$instance = self::factory(realpath(__DIR__) . self::CONFIG_PATH);
+            self::$instance = Aws::factory(realpath(__DIR__) . self::CONFIG_PATH);
         }
 
         return self::$instance;
@@ -73,13 +81,12 @@ class ClientService extends Aws
     /**
      * Set default AWS client params
      *
-     * @param array $settings
+     * @param array $params
      */
-    public static function setParams(array $settings)
+    public static function setParams(array $params)
     {
         self::reset();
-
-        self::$settings = $settings;
+        self::$params = $params;
     }
 
     /**
@@ -90,22 +97,48 @@ class ClientService extends Aws
      */
     public static function getParams()
     {
-        if (empty(self::$settings)) {
+        if (empty(self::$params)) {
             throw new Exception('Missing AWS configuration settings');
         }
 
-        return self::$settings;
+        return self::$params;
+    }
+
+    /**
+     * Set custom AWS configuration
+     *
+     * @param array $config
+     */
+    public static function setConfig(array $config)
+    {
+        self::reset();
+        self::$config = $config;
+    }
+
+    /**
+     * Return custom configuration
+     *
+     * @return array
+     */
+    public static function getConfig()
+    {
+        return self::$config;
     }
 
     /**
      * Reset client service
      *
+     * @param bool $hard
      * @return void
      */
-    public static function reset()
+    public static function reset($hard = false)
     {
         self::$instance = null;
-        self::$settings = [];
+
+        if ($hard) {
+            self::$params = [];
+            self::$config = [];
+        }
     }
 
 }
